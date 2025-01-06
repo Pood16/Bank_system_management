@@ -8,10 +8,10 @@ class BaseController{
     }
     public function renderUser($view, $data = []){
         extract($data);
-        include '../app/views/user' . $view . '.php';
+        include '../app/views/user/' . $view . '.php';
     }
     public function renderAdmin($view, $data = []){
         extract($data);
-        include '../app/views/admin' . $view . '.php';
+        include '../app/views/admin/' . $view . '.php';
     }
 }
