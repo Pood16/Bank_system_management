@@ -34,9 +34,9 @@ class AuthController extends BaseController {
             $data = $_POST;
         
             // check email forma
-            if(empty($data['name'])){
+            if(empty($data['email'])){
                 $login_errors['email'] = 'Email required';
-            }elseif (!filter_var($data['name'], FILTER_VALIDATE_EMAIL)) {
+            }elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 $login_errors['email'] = 'wrong email formta';
             }else{
                 // $email = htmlspecialchars(trim($data['email']));
@@ -54,8 +54,7 @@ class AuthController extends BaseController {
             $user = $this->userModel->getUserEmail($email);
             dd($user);
             if ($user){
-                // dd($user);
-                $this->render('auth/logout', ['user' => $user]);
+                
             }
         }
         
