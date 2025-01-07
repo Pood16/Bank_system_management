@@ -11,7 +11,7 @@ class AdminController extends BaseController {
 
 
     public function dashboard(){
-        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
             $this->redirect('/login');
         }
         $this->renderAdmin('dashboard');
