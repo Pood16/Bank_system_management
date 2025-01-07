@@ -27,16 +27,17 @@ class AuthController extends BaseController {
             'email' => '',
             'password' => ''
         ];
-        $email = $password = '';
+        $email = '';
+        $password = '';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
 
             $data = $_POST;
         
             // check email forma
-            if(empty($data['name'])){
+            if(empty($data['email'])){
                 $login_errors['email'] = 'Email required';
-            }elseif (!filter_var($data['name'], FILTER_VALIDATE_EMAIL)) {
+            }elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 $login_errors['email'] = 'wrong email formta';
             }else{
                 // $email = htmlspecialchars(trim($data['email']));
@@ -51,11 +52,32 @@ class AuthController extends BaseController {
                 $password = htmlspecialchars(trim($data['password']));
             }
             // check if the user exists in db
+            // dd($email);
             $user = $this->userModel->getUserEmail($email);
-            dd($user);
             if ($user){
-                // dd($user);
-                $this->render('auth/logout', ['user' => $user]);
+                if (password_verify($password, $user['password'])){
+                    if($user['role'] == 1){
+                        $_SESSION['user_id'] = $user['id'];
+                        $_SESSION['role'] = $user['role'];
+                        $_SESSION['username'] = $user['username'];
+                        $_SESSION['email'] = $user['email'];
+                        $_SESSION['profile_pic'] = $user['profile_pic'];
+                        header('location: /admin');
+                        exit();
+                    }elseif($user['role'] == 2){
+                        $_SESSION['user_id'] = $user['id'];
+                        $_SESSION['role'] = $user['role'];
+                        $_SESSION['username'] = $user['username'];
+                        $_SESSION['email'] = $user['email'];
+                        $_SESSION['profile_pic'] = $user['profile_pic'];
+                        header('location: /user');
+                        exit();
+                    }
+                }else{
+                    $login_errors['password'] =  "Password incorrect";
+                }
+            }else{
+                $login_errors['password'] =  "User not found";
             }
         }
         

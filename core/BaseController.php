@@ -14,4 +14,8 @@ class BaseController{
         extract($data);
         include '../app/views/admin/' . $view . '.php';
     }
+    public function redirect($url){
+        header('Location: ' . $url);
+        exit();
+    }
 }

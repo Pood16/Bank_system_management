@@ -20,8 +20,9 @@ class User extends Database {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetch();
     }
+    
 
 
 
