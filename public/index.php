@@ -6,6 +6,7 @@ require_once '../core/Router.php';
 require_once '../core/Route.php';
 require_once __DIR__.'/../app/controllers/AuthController.php'; 
 require_once __DIR__.'/../app/controllers/AdminController.php'; 
+require_once __DIR__.'/../app/controllers/ClientController.php'; 
 require_once(__DIR__.'/../app/config/Database.php');
 
 
@@ -26,7 +27,7 @@ Route::get('/admin', [AdminController::class, 'dashboard']);
 
 
 // user router
-Route::get('/user', [AdminController::class, 'dashboard']);
+Route::get('/user', [ClientController::class, 'dashboard']);
 
 
 
