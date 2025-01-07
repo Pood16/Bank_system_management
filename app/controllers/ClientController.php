@@ -16,5 +16,8 @@ class ClientController extends BaseController {
         }
         $this->renderUser('dashboard');
     }
+    public function profile(){
+        $this->renderUser('profile');
+    }
 }
 
