@@ -62,7 +62,7 @@ class AuthController extends BaseController {
                         $_SESSION['username'] = $user['username'];
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['profile_pic'] = $user['profile_pic'];
-                        header('location: /admin');
+                        header('Location: /admin');
                         exit();
                     }elseif($user['role'] == 2){
                         $_SESSION['user_id'] = $user['id'];
@@ -70,7 +70,7 @@ class AuthController extends BaseController {
                         $_SESSION['username'] = $user['username'];
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['profile_pic'] = $user['profile_pic'];
-                        header('location: /user');
+                        header('Location: /user');
                         exit();
                     }
                 }else{

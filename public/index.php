@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 require_once __DIR__.'/../core/functions.php';
 require_once '../core/BaseController.php';
 require_once '../core/Router.php';
@@ -23,6 +23,10 @@ Route::get('/logout', [AuthController::class, 'handleLogout']);
 //admin router
 
 Route::get('/admin', [AdminController::class, 'dashboard']);
+
+
+// user router
+Route::get('/user', [AdminController::class, 'dashboard']);
 
 
 
