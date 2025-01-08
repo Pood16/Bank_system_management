@@ -34,6 +34,12 @@ Route::post('/user/profile', [ClientController::class, 'updateProfile']);
 
 
 
+// API routes
+Route::get('/api/users', [AdminController::class, 'getUsers']);
+Route::get('/api/users/delete', [AdminController::class, 'deleteUser']);
+
+
+
 
 
 

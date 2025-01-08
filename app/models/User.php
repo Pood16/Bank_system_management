@@ -24,7 +24,7 @@ class User extends Database {
     }
     //get user id
     public function getUser($id){
-        $query = "SELECT users.name, users.email, accounts.account_type, accounts.account_number FROM users JOIN accounts ON users.id = accounts.user_id WHERE users.id = :id";
+        $query = "SELECT users.role, users.name, users.email, accounts.account_type, accounts.account_number FROM users JOIN accounts ON users.id = accounts.user_id WHERE users.id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -65,6 +65,15 @@ class User extends Database {
 
         return true;
         
+    }
+
+
+    public function deleteUser($id){
+        $query = "DELETE FROM users WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return true;
     }
     
 
