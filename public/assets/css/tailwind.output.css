@@ -626,6 +626,9 @@ video {
 .active\:bg-transparent:active {
   background-color: transparent;
 }
+.bg-transparent {
+  background-color: transparent;
+}
 .active\:bg-purple-600:active {
   --bg-opacity: 1;
   background-color: #7e3af2;

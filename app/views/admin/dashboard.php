@@ -13,6 +13,7 @@
     <script src="/assets/js/focus-trap.js" defer></script>
   </head>
   <body>
+    
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
  <?php require_once __DIR__ . '/../components/header.php'; ?> 
     <main class="h-full overflow-y-auto mb-8">
@@ -71,20 +72,28 @@
                           </svg>
                         </button>
                         <?php if ($user['is_banned'] == 0): ?>
-                        <button onclick="ban(<?= $user['id']; ?>)" class="flex items-center justify-between text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-red-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
-                                  
-                           
-                          <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path>
-                          </svg>                 
-                        </button>
+                          <div x-data="{ isOpen: false, selectedAction: '' }" class="relative">
+  <button @click="isOpen = !isOpen" class="flex items-center justify-between px-4 py-2 text-sm font-medium text-purple-600 bg-white border border-purple-600 rounded-md bg-transparent hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+    <span x-text="selectedAction || 'Actions'"></span>
+    <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+    </svg>
+  </button>
+  <div x-show="isOpen" @click.away="isOpen = false" class="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5" style="z-index: 9999;">
+    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+      <?php foreach ($user['accounts'] as $account): ?>
+      <a href="#" @click="<?php echo $account['status'] == '0' ? 'ban('.$account['id'].')' : 'unban('.$account['id'].')' ?>; selectedAction = 'Ban'; ; isOpen = false" class="block px-4 py-2 text-sm <?php echo $account['status'] == '0' ? 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' : 'bg-red-600 text-white' ?> rounded-md" role="menuitem"><?= $account['account_type']; ?> - <?= $account['account_number']; ?></a>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</div>
                         <?php else: ?>
                           <button onclick="unban(<?= $user['id']; ?>)" class="flex items-center justify-between text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-red-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
                           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
                           </svg>                            
                         </button>
-                        <?php endif; ?>
+                        <?php endif; ?> 
                       </div>
                     </td>
                   </tr>
