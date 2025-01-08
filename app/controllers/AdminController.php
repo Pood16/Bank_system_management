@@ -14,7 +14,29 @@ class AdminController extends BaseController {
         if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
             $this->redirect('/login');
         }
-        $this->renderAdmin('dashboard');
+        $users = $this->userModel->getAllUsers();
+        $this->renderAdmin('dashboard', ['users' => $users]);
     }
+
+    public function createUser(){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+            $this->redirect('/login');
+        }
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $name = trim($_POST['name'] ?? '');
+            $email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
+            $password = $_POST['password'] ?? '';
+            $role = intval($_POST['role'] ?? 0);
+            if(empty($name) || strlen($name) > 50 || !$email || strlen($password) < 8 || !in_array($role, [1, 2])){
+                $_SESSION['error'] = "Invalid input. Please check your entries.";
+                $this->redirect('/admin');
+                exit;
+            }
+            if($this->userModel->createUser($name, $email, $password, $role)){
+                $this->redirect('/admin');
+                exit;
+            }
+        }
+    }   
 }
 
