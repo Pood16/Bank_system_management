@@ -25,6 +25,7 @@ class User extends Database {
     //get user id
     public function getUser($id){
         $query = "SELECT users.role, users.name, users.email, accounts.account_type, accounts.account_number FROM users JOIN accounts ON users.id = accounts.user_id WHERE users.id = :id";
+        $query = "SELECT users.*, accounts.* FROM users JOIN accounts ON users.id = accounts.user_id WHERE users.id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -41,7 +42,7 @@ class User extends Database {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
+    // create user
     public function createUser($name, $email, $password, $role){
         $query = "INSERT INTO users (name, email, password, role, profile_pic) VALUES (:name, :email, :password, :role, 'http://www.fls.usmba.ac.ma/app/public/admin/uploads/users/user_default.png')";
         $stmt = $this->conn->prepare($query);
@@ -75,6 +76,22 @@ class User extends Database {
         $stmt->execute();
         return true;
     }
+
+    // update user information
+    public function updateClient($name, $email, $password,$address, $profile_path, $id){
+        $query = "UPDATE users SET name = :name, email = :email, password = :password, user_addres = :address, profile_pic = :profile_path WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+        $stmt->bindParam(':address', $address, PDO::PARAM_STR);
+        $stmt->bindParam(':profile_path', $profile_path, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        header('Location: /user/profile');
+        exit();
+    }
+    
 
     public function banUser($id){
         $query = "UPDATE users SET is_banned = '1' WHERE id = :id";

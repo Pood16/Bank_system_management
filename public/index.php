@@ -31,6 +31,9 @@ Route::post('/admin/users', [AdminController::class, 'createUser']);
 Route::get('/user', [ClientController::class, 'dashboard']);
 Route::get('/user/profile', [ClientController::class, 'profile']);
 Route::post('/user/profile', [ClientController::class, 'updateProfile']);
+Route::get('/user/accounts', [ClientController::class, 'showAccounts']);
+
+
 
 
 

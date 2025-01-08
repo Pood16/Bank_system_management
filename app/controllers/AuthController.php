@@ -75,9 +75,11 @@ class AuthController extends BaseController {
                     }
                 }else{
                     $login_errors['password'] =  "Password incorrect";
+                    echo "error";
                 }
             }else{
                 $login_errors['password'] =  "User not found";
+                echo "not found";
             }
         }
         
@@ -92,7 +94,9 @@ class AuthController extends BaseController {
     }
     // handle logout
     public function handleLogout(){
-        $this->render('auth/logout');
+        session_unset(); 
+        session_destroy(); 
+        $this->render('auth/login');
     }
     
 }
