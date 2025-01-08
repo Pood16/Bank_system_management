@@ -17,7 +17,21 @@ class ClientController extends BaseController {
         $this->renderUser('dashboard');
     }
     public function profile(){
-        $this->renderUser('profile');
+        $id = $_SESSION['user_id'];
+        $user = $this->userModel ->getUser($id);
+        // dd($user);
+        $this->renderUser('profile', ['user'=> $user]);
+    }
+    public function updateProfile(){
+        $update_errors = [
+            'name' => '',
+            'email' => '',
+            'password' => ''
+        ];
+        $name = $email = $password = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
+            dd($_SESSION); 
+        }
     }
 }
 

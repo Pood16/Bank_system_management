@@ -29,6 +29,8 @@ Route::get('/admin', [AdminController::class, 'dashboard']);
 // user router
 Route::get('/user', [ClientController::class, 'dashboard']);
 Route::get('/user/profile', [ClientController::class, 'profile']);
+Route::post('/user/profile', [ClientController::class, 'updateProfile']);
+
 
 
 

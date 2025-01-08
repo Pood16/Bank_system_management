@@ -11,8 +11,10 @@
     <script src="/assets/js/init-alpine.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-    <script src="/assets/js/charts-lines.js" defer></script>
-    <script src="/assets/js/charts-pie.js" defer></script>
+    <!-- <script src="/assets/js/charts-lines.js" defer></script>
+    <script src="/assets/js/charts-pie.js" defer></script> -->
+    <script src="/assets/js/focus-trap.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
