@@ -60,6 +60,18 @@ class AdminController extends BaseController {
         $this->userModel->deleteUser($_GET['id']);
     }
 
-    
+    public function banUser(){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+            $this->redirect('/login');
+        }
+        $this->userModel->banUser($_GET['id']);
+    }
+
+    public function unbanUser(){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+            $this->redirect('/login');
+        }
+        $this->userModel->unbanUser($_GET['id']);
+    }
 
 }
