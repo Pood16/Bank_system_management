@@ -12,19 +12,29 @@ class ClientController extends BaseController {
         $this->accountModel = new Account();
     }
 
-
-    public function dashboard(){
+    // views
+    public function profile(){
         if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
             $this->redirect('/login');
         }
-        $this->renderUser('dashboard');
-    }
-    public function profile(){
         $id = $_SESSION['user_id'];
         $user = $this->userModel ->getUser($id);
         $this->renderUser('profile', ['user'=> $user]);
     }
+
+    public function depot(){
+        $this->renderUser('depot');
+    }
+
+    public function showAccounts(){
+        $accounts = $this->accountModel->getAccounts($_SESSION['user_id']);
+        $this->renderUser('accounts', ['accounts' => $accounts]);
+    }
+    // end views
+
     public function updateProfile(){
+        
+        $name = $email = $password = '';
         $update_errors = [
             'name' => '',
             'email' => '',
@@ -32,13 +42,12 @@ class ClientController extends BaseController {
             'password' => ''
         ];
        
-        $name = $email = $password = '';
+      
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
+
             $data = $_POST;
             $id = $_SESSION['user_id'];
-            // dd($id);
             $profile_path ='http://localhost:8080/assets/uploads/'.$data['profile'];
-
             $name = htmlspecialchars(trim($data['name']));
             $address = htmlspecialchars(trim($data['address']));
             $email = htmlspecialchars(trim($data['email']));
@@ -61,22 +70,50 @@ class ClientController extends BaseController {
 
             // Validate password
             if (!empty($password)) {
-                if (strlen($password) <= 4) {
-                    $update_errors['password'] = 'Password must be more than 4 characters long.';
+                if (strlen($password) <= 8) {
+                    $update_errors['password'] = 'Password must be more than 8 characters long.';
                 }
             }
 
             $password = password_hash($password, PASSWORD_DEFAULT);
-            $this->userModel->updateClient($name, $email, $password,$address, $profile_path, $id);
-            // dd($update_errors);
-            
+            $update_status = $this->userModel->updateClient($name, $email, $password,$address, $profile_path, $id);
+            if ($update_status){
+                $this->redirect('/user');
+            } 
         }
     }
-    public function showAccounts(){
-        $accounts = $this->accountModel->getAccounts($_SESSION['user_id']);
-        dd($accounts);
-        $this->renderUser('accounts');
+
+    public function addAmount(){
+        
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
+            $amount = '';
+            $_SESSION['failed'] = '';
+            $_SESSION['success'] = '';
+            $account = $this->accountModel->getAccounts($_SESSION['user_id']);
+            if (empty($_POST['amount']) || $_POST['amount'] < 0.01){
+                $amount_error = 'The minimum amount to deposit  should be greater than 0.01 Euro';
+                $this->renderUser('depot', ['amount_error' => $amount_error]);
+            }else{
+                $amount = (float)$_POST['amount'];
+            }
+            $id = $_SESSION['user_id'];
+            $old_balance = (float)$account[0]['balance'];
+            $status = $this->accountModel->addAmount($id, $old_balance, $amount);
+            if ($status){
+                $_SESSION['success'] = "The amount was added successfully";
+                $this->renderUser('/depot');
+            }else{
+                $_SESSION['failed'] = "Failed to add the amount";
+                $this->renderUser('depot');
+            }
+        }
     }
+
+
+
+    
+    
+
     
 }
 

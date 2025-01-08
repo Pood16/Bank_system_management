@@ -87,10 +87,9 @@ class User extends Database {
         $stmt->bindParam(':address', $address, PDO::PARAM_STR);
         $stmt->bindParam(':profile_path', $profile_path, PDO::PARAM_STR);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        header('Location: /user/profile');
-        exit();
+        return $stmt->execute();  
     }
+    
     
 
 
