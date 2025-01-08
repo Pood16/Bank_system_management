@@ -38,5 +38,28 @@ class AdminController extends BaseController {
             }
         }
     }   
-}
 
+    public function getUsers(){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+            $this->redirect('/login');
+        }
+        if($_GET['action'] == 'all'){
+            $users = $this->userModel->getAllUsers();
+            echo json_encode($users);
+        }elseif ($_GET['action'] == 'id') {
+            $user = $this->userModel->getUser($_GET['id']);
+            echo json_encode($user);
+        }
+    }
+
+
+    public function DeleteUser(){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+            $this->redirect('/login');
+        }
+        $this->userModel->deleteUser($_GET['id']);
+    }
+
+    
+
+}

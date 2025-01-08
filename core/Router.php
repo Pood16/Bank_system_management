@@ -9,6 +9,7 @@ class Router
         'POST' => [],
  
     ];
+    
 
     // Add a route
     public function add($method, $route, $callback)
@@ -16,7 +17,7 @@ class Router
         $method = strtoupper($method);
 
         // Convert the route to a regex for dynamic parameters
-        $route = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9_]+)', $route);
+        $route = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([^/]+)', $route);
 
         $this->routes[$method][$route] = $callback;
     }

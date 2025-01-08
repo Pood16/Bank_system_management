@@ -37,6 +37,12 @@ Route::get('/user/accounts', [ClientController::class, 'showAccounts']);
 
 
 
+// API routes
+Route::get('/api/users', [AdminController::class, 'getUsers']);
+Route::get('/api/users/delete', [AdminController::class, 'deleteUser']);
+
+
+
 
 
 
