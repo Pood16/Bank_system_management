@@ -12,6 +12,7 @@ class Database {
             $this->conn = new PDO('mysql:host=localhost;dbname=bank_db', 'root', '');
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
         }
     }
 }
