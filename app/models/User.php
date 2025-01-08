@@ -75,6 +75,22 @@ class User extends Database {
         $stmt->execute();
         return true;
     }
+
+    public function banUser($id){
+        $query = "UPDATE users SET is_banned = '1' WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return true;
+    }
+
+    public function unbanUser($id){
+        $query = "UPDATE users SET is_banned = '0' WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return true;
+    }
     
 
 

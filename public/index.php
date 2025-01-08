@@ -37,6 +37,8 @@ Route::post('/user/profile', [ClientController::class, 'updateProfile']);
 // API routes
 Route::get('/api/users', [AdminController::class, 'getUsers']);
 Route::get('/api/users/delete', [AdminController::class, 'deleteUser']);
+Route::get('/api/users/ban', [AdminController::class, 'banUser']);
+Route::get('/api/users/unban', [AdminController::class, 'unbanUser']);
 
 
 
