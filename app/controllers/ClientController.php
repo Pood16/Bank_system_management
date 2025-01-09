@@ -27,12 +27,14 @@ class ClientController extends BaseController {
     }
 
     public function showAccounts(){
+        unset($_SESSION['accounts']);
         $accounts = $this->accountModel->getAccounts($_SESSION['user_id']);
         if ($accounts[0]['status'] == 1){
             $_SESSION['account_statu'] = "You cant do this operation cuz your account is banned by the bank try to contact the administration ⚠️";
         }else{
             unset($_SESSION['account_statu']);
         }
+        // dd($accounts);  
         $this->renderUser('accounts', ['accounts' => $accounts]);
     }
     // end views
@@ -97,8 +99,9 @@ class ClientController extends BaseController {
             $account = $this->accountModel->getAccounts($_SESSION['user_id']);
            
             if (empty($_POST['amount']) || $_POST['amount'] < 0.01){
-                $amount_error = 'The minimum amount to deposit  should be greater than 0.01 Euro';
-                $this->renderUser('depot', ['amount_error' => $amount_error]);
+                $_SESSION['failed'] = 'The minimum amount to deposit  should be greater than 0.01 Euro';
+                $_SESSION['accounts'] = $account;
+                $this->redirect('/user/accounts?action=depot');
             }else{
                 $amount = (float)$_POST['amount'];
             }
@@ -107,10 +110,12 @@ class ClientController extends BaseController {
             $status = $this->accountModel->addAmount($id, $old_balance, $amount);
             if ($status){
                 $_SESSION['success'] = "The amount was added successfully";
-                $this->renderUser('/depot');
+                $_SESSION['accounts'] = $account;
+                $this->redirect('/user/accounts?action=depot');
             }else{
                 $_SESSION['failed'] = "Failed to add the amount";
-                $this->renderUser('depot');
+                $_SESSION['accounts'] = $account;
+                $this->redirect('/user/accounts?action=depot');
             }
         }
     }

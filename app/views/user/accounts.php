@@ -25,7 +25,7 @@
             </div>
             
             <div class="mt-6 grid grid-cols-2 gap-4">
-                <a href="/user/depot" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
+                <a  @click="isModalTwoOpen = true" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
                     <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
                     Alimenter
                 </a>
@@ -76,13 +76,13 @@
             </div>
             
             <div class="mt-6 grid grid-cols-2 gap-4">
-                <button onclick="toggleModal('epargne')" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
+                <button  @click="isModalTwoOpen = true" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
                     <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
                     Alimenter
                 </button>
                 
                 <!-- Dans le Compte Épargne -->
-                <button onclick="toggleModal('epargne')" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
+                <button  @click="isModalTwoOpen = true" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
                     <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
                     Alimenter
                 </button>
@@ -114,8 +114,11 @@
 </div>
 
 
+<?php if(isset($_SESSION['action']) && !empty($_SESSION['action']) && $_SESSION['action'] == 'depot'): ?>
+    <script>document.querySelector('[x-data]').__x.$data.isModalTwoOpen = true;</script>
+<?php endif; ?>
 
 
 
-
+<?php require_once __DIR__ . '/../components/depotModal.php'; ?>
 <?php require_once __DIR__ . '/../components/footer.php'; ?>
