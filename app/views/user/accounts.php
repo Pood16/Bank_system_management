@@ -124,4 +124,6 @@
 <?php if(isset($_GET['action']) && $_GET['action'] == 'depot'): ?>
     <script>setTimeout(() => { document.querySelector('[x-data]').__x.$data.isModalTwoOpen = true; }, 500);</script>
 <?php endif; ?>
+<?php unset($_SESSION['failed']);
+unset($_SESSION['success']); ?>
 <?php require_once __DIR__ . '/../components/footer.php'; ?>
