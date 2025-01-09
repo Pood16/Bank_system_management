@@ -114,11 +114,12 @@
 </div>
 
 
-<?php if(isset($_SESSION['action']) && !empty($_SESSION['action']) && $_SESSION['action'] == 'depot'): ?>
-    <script>document.querySelector('[x-data]').__x.$data.isModalTwoOpen = true;</script>
-<?php endif; ?>
+
 
 
 
 <?php require_once __DIR__ . '/../components/depotModal.php'; ?>
+<?php if(isset($_GET['action']) && $_GET['action'] == 'depot'): ?>
+    <script>setTimeout(() => { document.querySelector('[x-data]').__x.$data.isModalTwoOpen = true; }, 500);</script>
+<?php endif; ?>
 <?php require_once __DIR__ . '/../components/footer.php'; ?>
