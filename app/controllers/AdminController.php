@@ -27,7 +27,6 @@ class AdminController extends BaseController {
 
     public function createUser(){
         if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
-        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
             $this->redirect('/login');
         }
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
