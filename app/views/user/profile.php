@@ -12,107 +12,35 @@
         </div>
       </div>
       <!-- Profile Content -->
-      <div class="p-6 bg-gray-800">
-            <div class="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8">
-                <!-- Profile Picture Section - Made Larger -->
-                <div class="flex flex-col items-center space-y-4 md:w-1/3">
-                <div class="w-64 h-64 md:w-80 md:h-80 rounded-xl overflow-hidden bg-gray-200 shadow-lg ring-4 ring-blue-500/20">
-                    <img src="<?=$user['profile_pic']?>" alt="Profile Picture" class="w-full h-full object-cover" />
-                </div>
-                <!-- Account Status Badge -->
-                <div class="bg-gray-700 px-4 py-2 rounded-full flex items-center space-x-2 shadow-md">
-                    <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                    <span class="text-gray-200 font-medium">Active</span>
-                </div>
-                </div>
-
-                <!-- Profile Details Section -->
-                <div class="flex-1 space-y-8">
-                <!-- Name and Primary Info Header -->
-                <div class="border-b border-gray-700 pb-4">
-                    <h1 class="text-2xl font-bold text-gray-100 mb-2"><?=$user['name']?></h1>
-                    <div class="flex flex-wrap gap-4 text-sm">
-                    <span class="text-gray-400">Account #: <span class="text-gray-200 font-medium">2023456789</span></span>
-                    <span class="text-gray-400">IBAN: <span class="text-gray-200 font-medium">DE89 3704 0044 0532 0130 00</span></span>
-                    </div>
-                </div>
-
-                <!-- Information Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Contact Information Section -->
-                    <div class="bg-gray-700/50 p-4 rounded-lg space-y-4">
-                    <h2 class="text-lg font-semibold text-gray-200 border-b border-gray-600 pb-2">Contact Information</h2>
-                    <div class="space-y-3">
-                        <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Email Address</label>
-                        <p class="text-gray-200 font-medium"><?=$user['email']?></p>
-                        </div>
-                        <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Phone Number</label>
-                        <p class="text-gray-200 font-medium">+49 123 456 7890</p>
-                        </div>
-                    </div>
-                    </div>
-
-                    <!-- Personal Details Section -->
-                    <div class="bg-gray-700/50 p-4 rounded-lg space-y-4">
-                    <h2 class="text-lg font-semibold text-gray-200 border-b border-gray-600 pb-2">Personal Details</h2>
-                    <div class="space-y-3">
-                        <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Date of Birth</label>
-                        <p class="text-gray-200 font-medium">15 March 1985</p>
-                        </div>
-                        <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">ID Type & Number</label>
-                        <p class="text-gray-200 font-medium">Passport - L01X52789</p>
-                        </div>
-                    </div>
-                    </div>
-
-                    <!-- Address Section -->
-                    <div class="bg-gray-700/50 p-4 rounded-lg space-y-4">
-                    <h2 class="text-lg font-semibold text-gray-200 border-b border-gray-600 pb-2">Address</h2>
-                    <div class="space-y-3">
-                        <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Residential Address</label>
-                        <p class="text-gray-200 font-medium"><?=$user['user_addres']?></p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-400 mb-1">City</label>
-                            <p class="text-gray-200 font-medium">Berlin</p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-400 mb-1">Postal Code</label>
-                            <p class="text-gray-200 font-medium">10115</p>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-
-                    <!-- Banking Details Section -->
-                    <div class="bg-gray-700/50 p-4 rounded-lg space-y-4">
-                    <h2 class="text-lg font-semibold text-gray-200 border-b border-gray-600 pb-2">Banking Details</h2>
-                    <div class="space-y-3">
-                        <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Account Type</label>
-                        <p class="text-gray-200 font-medium">Premium Savings</p>
-                        </div>
-                        <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Branch</label>
-                        <p class="text-gray-200 font-medium">Alexanderplatz Branch</p>
-                        </div>
-                        <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Annual Income</label>
-                        <p class="text-gray-200 font-medium">€75,000.00</p>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
+      <div class="p-6">
+        <div class="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6">
+          <!-- Profile Picture Section -->
+          <div class="flex flex-col items-center space-y-3">
+            <div class="w-48 h-48 rounded-full overflow-hidden bg-gray-200">
+              <img src="<?=$user['profile_pic']?>" alt="Profile Picture" class="w-full h-full object-cover" />
             </div>
+            <button class="hidden px-4 py-2 text-sm text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors"> Change Photo </button>
+          </div>
+          <!-- Profile Details Section -->
+          <div class="flex-1 space-y-6">
+            <!-- Personal Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">Full Name</label>
+                <p class="text-gray-200 font-medium"><?=$user['name']?></p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">Email Address</label>
+                <p class="text-gray-200 font-medium"><?=$user['email']?></p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">Address</label>
+                <p class="text-gray-200 font-medium"><?=$user['user_addres']?></p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
   <!-- update form -->

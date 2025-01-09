@@ -70,7 +70,7 @@
                 <div class="text-right">
                     <p class="text-2xl font-bold text-gray-900">€<?=$accounts[1]['balance']?></p>
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                    <?=($accounts[1]['status']==0)?'Active':'blocked'?>
+                    <?=($accounts[1]['status']==0)?'Actif':'blocked'?>
                     </span>
                 </div>
             </div>

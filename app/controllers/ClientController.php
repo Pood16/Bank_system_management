@@ -28,6 +28,11 @@ class ClientController extends BaseController {
 
     public function showAccounts(){
         $accounts = $this->accountModel->getAccounts($_SESSION['user_id']);
+        if ($accounts[0]['status'] == 1){
+            $_SESSION['account_statu'] = "You cant do this operation cuz your account is banned by the bank try to contact the administration ⚠️";
+        }else{
+            unset($_SESSION['account_statu']);
+        }
         $this->renderUser('accounts', ['accounts' => $accounts]);
     }
     // end views
@@ -90,6 +95,7 @@ class ClientController extends BaseController {
             $_SESSION['failed'] = '';
             $_SESSION['success'] = '';
             $account = $this->accountModel->getAccounts($_SESSION['user_id']);
+           
             if (empty($_POST['amount']) || $_POST['amount'] < 0.01){
                 $amount_error = 'The minimum amount to deposit  should be greater than 0.01 Euro';
                 $this->renderUser('depot', ['amount_error' => $amount_error]);
