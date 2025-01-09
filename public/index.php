@@ -28,10 +28,13 @@ Route::post('/admin/users', [AdminController::class, 'createUser']);
 
 
 // user router
-Route::get('/user', [ClientController::class, 'dashboard']);
-Route::get('/user/profile', [ClientController::class, 'profile']);
+// Route::get('/user', [ClientController::class, 'dashboard']);
+Route::get('/user', [ClientController::class, 'profile']);
 Route::post('/user/profile', [ClientController::class, 'updateProfile']);
 Route::get('/user/accounts', [ClientController::class, 'showAccounts']);
+Route::get('/user/depot', [ClientController::class, 'depot']);
+Route::post('/deposit', [ClientController::class, 'addAmount']);
+
 
 
 
