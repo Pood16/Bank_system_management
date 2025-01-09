@@ -2,9 +2,6 @@
 <?php require_once __DIR__ . '/../components/header.php'; ?> 
 
 
-
-
-
 <h2 class="text-2xl font-bold text-white ml-14 mt-10">Mes Comptes</h2>
 <div class="grid grid-cols-1 gap-10 mt-10 p-8 mx-auto border border-1-black w-11/12 md:grid-cols-2">
 
