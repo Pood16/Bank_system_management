@@ -15,7 +15,14 @@ class AdminController extends BaseController {
             $this->redirect('/login');
         }
         $users = $this->userModel->getAllUsers();
-        $this->renderAdmin('dashboard', ['users' => $users]);
+        $all = [];
+        foreach($users as $user){
+            $user['accounts'] = $this->userModel->getUserAccounts($user['id']);
+            // dd($user);  
+            $all[] = $user; 
+        }
+        // dd($all);
+        $this->renderAdmin('dashboard', ['users' => $all]);
     }
 
     public function createUser(){
@@ -64,14 +71,14 @@ class AdminController extends BaseController {
         if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
             $this->redirect('/login');
         }
-        $this->userModel->banUser($_GET['id']);
+        $this->userModel->banAccount($_GET['id']);
     }
 
     public function unbanUser(){
         if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
             $this->redirect('/login');
         }
-        $this->userModel->unbanUser($_GET['id']);
+        $this->userModel->unbanAccount($_GET['id']);
     }
 
 }
