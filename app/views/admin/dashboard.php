@@ -141,6 +141,23 @@
             location.reload();
           });
       }
+
+      const searchInput = document.getElementById('searchUsers');
+      searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const rows = Array.from(document.querySelectorAll('table tr'));
+        rows.shift();
+        rows.forEach(row => {
+          const name = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+          const email = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+          const created_at = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+          if (name.includes(searchTerm) || email.includes(searchTerm) || created_at.includes(searchTerm)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
     </script>
       
 <?php require_once __DIR__ . '/../components/footer.php'; ?>

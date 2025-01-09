@@ -11,7 +11,7 @@ class AdminController extends BaseController {
 
 
     public function dashboard(){
-        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
             $this->redirect('/login');
         }
         $users = $this->userModel->getAllUsers();
@@ -26,7 +26,7 @@ class AdminController extends BaseController {
     }
 
     public function createUser(){
-        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
             $this->redirect('/login');
         }
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -47,7 +47,7 @@ class AdminController extends BaseController {
     }   
 
     public function getUsers(){
-        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
             $this->redirect('/login');
         }
         if($_GET['action'] == 'all'){
@@ -61,21 +61,21 @@ class AdminController extends BaseController {
 
 
     public function DeleteUser(){
-        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
             $this->redirect('/login');
         }
         $this->userModel->deleteUser($_GET['id']);
     }
 
     public function banUser(){
-        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
             $this->redirect('/login');
         }
         $this->userModel->banAccount($_GET['id']);
     }
 
     public function unbanUser(){
-        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
             $this->redirect('/login');
         }
         $this->userModel->unbanAccount($_GET['id']);
