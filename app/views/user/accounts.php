@@ -114,7 +114,7 @@
 </div>
 
 
-<?php if(isset($_SESSION['action']) && !empty($_SESSION['action']) && $_SESSION['action'] == 'depot'): ?>
+<?php if(isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'depot'): ?>
     <script>document.querySelector('[x-data]').__x.$data.isModalTwoOpen = true;</script>
 <?php endif; ?>
 
