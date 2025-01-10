@@ -28,7 +28,14 @@ class Account extends Database {
         $stmt->bindParam(':solde', $solde, PDO::PARAM_STR);
         $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
         $stmt->bindParam(':id', $id, PDO::PARAM_STR);
-        return $stmt->execute();
+        if ($stmt->execute()){
+            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount, beneficiary_account_id) VALUES (:id, "depot", :amount, :id)';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR); 
+            $stmt->execute();   
+        }
+        return true;
     }
 
     public function getTotalDeposits() {

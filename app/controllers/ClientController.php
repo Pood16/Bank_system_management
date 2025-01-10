@@ -152,6 +152,12 @@ class ClientController extends BaseController {
         
     }
 
+    // withdraw amount
+
+    public function withdrawAmount(){
+        
+    }
+
 
 
     
