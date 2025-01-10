@@ -115,7 +115,6 @@ class ClientController extends BaseController {
 
     // add amount action
     public function addAmount(){
-        dd($_SESSION);
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
             $amount = '';
             $_SESSION['failed'] = '';

@@ -68,5 +68,15 @@ function data() {
       this.isModalTwoOpen = false;
       this.trapCleanupTwo();
     },
+    isModal3Open: false,
+    trapCleanup3: null,
+    openModal3() {
+      this.isModal3Open = true;
+      this.trapCleanup3 = focusTrap(document.querySelector("#modal-3"));
+    },
+    closeModal3() {
+      this.isModal3Open = false;
+      this.trapCleanup3();
+    },
   };
 }

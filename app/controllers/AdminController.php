@@ -1,12 +1,15 @@
 <?php 
 
-
 require_once __DIR__.'/../models/User.php';
+require_once __DIR__.'/../models/Account.php';
 class AdminController extends BaseController {
 
     private $userModel;
+    private $accountModel;
+    
     public function __construct(){
         $this->userModel = new User();
+        $this->accountModel = new Account();
     }
 
 
@@ -81,4 +84,17 @@ class AdminController extends BaseController {
         $this->userModel->unbanAccount($_GET['id']);
     }
 
+    public function globalReport() {
+        if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 1){
+            $this->redirect('/login');
+        }
+
+        $report = [
+            'totalDeposits' => $this->accountModel->getTotalDeposits(),
+            'totalWithdrawals' => $this->accountModel->getTotalWithdrawals(),
+            'totalBalance' => $this->accountModel->getTotalBalance()
+        ];
+
+        $this->renderAdmin('globalReport', ['report' => $report]);
+    }
 }

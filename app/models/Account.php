@@ -1,6 +1,5 @@
 <?php 
 
-
 require_once(__DIR__.'/../config/Database.php');
 
 class Account extends Database {
@@ -32,13 +31,24 @@ class Account extends Database {
         return $stmt->execute();
     }
 
+    public function getTotalDeposits() {
+        $query = "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE type = 'deposit'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
 
-    
-    
-    
+    public function getTotalWithdrawals() {
+        $query = "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE type = 'withdrawal'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
 
-
-
-
-
+    public function getTotalBalance() {
+        $query = "SELECT COALESCE(SUM(balance), 0) as total FROM accounts";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
 }
