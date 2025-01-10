@@ -32,14 +32,14 @@ class Account extends Database {
     }
 
     public function getTotalDeposits() {
-        $query = "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE type = 'deposit'";
+        $query = "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE transaction_type = 'depot'";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
     public function getTotalWithdrawals() {
-        $query = "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE type = 'withdrawal'";
+        $query = "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE transaction_type = 'withdrawal'";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];

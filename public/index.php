@@ -25,6 +25,7 @@ Route::get('/logout', [AuthController::class, 'handleLogout']);
 
 Route::get('/admin', [AdminController::class, 'dashboard']);
 Route::post('/admin/users', [AdminController::class, 'createUser']);
+Route::get('/report', [AdminController::class, 'globalReport']);
 
 
 // user router
