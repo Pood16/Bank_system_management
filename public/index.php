@@ -35,6 +35,7 @@ Route::post('/user/profile', [ClientController::class, 'updateProfile']);
 Route::get('/user/accounts', [ClientController::class, 'showAccounts']);
 Route::get('/user/depot', [ClientController::class, 'depot']);
 Route::post('/deposit', [ClientController::class, 'addAmount']);
+Route::post('/retrait', [ClientController::class, 'withdrawAmount']);
 Route::get('/user/transferts', [ClientController::class, 'showTransfert']);
 Route::get('/user/historique', [ClientController::class, 'showHistoriques']);
 Route::post('/transfer_d_argent', [ClientController::class, 'handleTransfert']);
