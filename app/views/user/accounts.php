@@ -22,9 +22,9 @@
             </div>
             
             <div class="mt-6 grid grid-cols-2 gap-4">
-                <a  @click="isModalTwoOpen = true" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
+                <a  @click="isModalTwoOpen = true" class="flex items-center justify-center cursor-pointer p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
                     <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
-                    Alimenter
+                    Depot
                 </a>
                 <button class="flex items-center justify-center p-3 text-purple-600 border border-purple-600 rounded-lg hover:bg-purple-50">
                     <i data-lucide="download" class="w-5 h-5 mr-2"></i>
@@ -73,15 +73,10 @@
             </div>
             
             <div class="mt-6 grid grid-cols-2 gap-4">
-                <button  @click="isModalTwoOpen = true" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
-                    <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
-                    Alimenter
-                </button>
-                
                 <!-- Dans le Compte Épargne -->
                 <button  @click="isModalTwoOpen = true" class="flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
                     <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
-                    Alimenter
+                    Depot
                 </button>
             </div>
 
@@ -111,13 +106,11 @@
 </div>
 
 
-<?php if(isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'depot'): ?>
-    <script>document.querySelector('[x-data]').__x.$data.isModalTwoOpen = true;</script>
-<?php endif; ?>
 
 
 
 <?php require_once __DIR__ . '/../components/depotModal.php'; ?>
+
 <?php if(isset($_GET['action']) && $_GET['action'] == 'depot'): ?>
     <script>setTimeout(() => { document.querySelector('[x-data]').__x.$data.isModalTwoOpen = true; }, 500);</script>
 <?php endif; ?>

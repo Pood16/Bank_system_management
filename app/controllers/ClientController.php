@@ -3,6 +3,7 @@
 
 require_once __DIR__.'/../models/User.php';
 require_once __DIR__.'/../models/Account.php';
+// require_once __DIR__.'/../models/Transaction.php';
 class ClientController extends BaseController {
   
     private $userModel;
@@ -12,7 +13,13 @@ class ClientController extends BaseController {
         $this->accountModel = new Account();
     }
 
-    // views
+    //
+
+    //start views
+
+    //
+    
+    // client view
     public function profile(){
         if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || $_SESSION['role'] != 2){
             $this->redirect('/login');
@@ -21,14 +28,15 @@ class ClientController extends BaseController {
         $user = $this->userModel ->getUser($id);
         $this->renderUser('profile', ['user'=> $user]);
     }
-
+    // depot view
     public function depot(){
         $this->renderUser('depot');
     }
-
+    // client accounts view
     public function showAccounts(){
         unset($_SESSION['accounts']);
         $accounts = $this->accountModel->getAccounts($_SESSION['user_id']);
+        $_SESSION['accounts'] = $accounts;
         if ($accounts[0]['status'] == 1){
             $_SESSION['account_statu'] = "You cant do this operation cuz your account is banned by the bank try to contact the administration ⚠️";
         }else{
@@ -37,8 +45,23 @@ class ClientController extends BaseController {
         // dd($accounts);  
         $this->renderUser('accounts', ['accounts' => $accounts]);
     }
+    // client transfers view
+    public function showTransfert(){
+        unset($_SESSION['accounts']);
+        $accounts = $this->accountModel->getAccounts($_SESSION['user_id']);
+        $_SESSION['accounts'] = $accounts;
+        $this->renderUser('transfer');
+    }
+    // client transactions historique view
+    public function showHistoriques(){
+        $this->renderUser('historique');
+    }
+    //
     // end views
+    //
 
+
+    // update profile action
     public function updateProfile(){
         
         $name = $email = $password = '';
@@ -90,8 +113,9 @@ class ClientController extends BaseController {
         }
     }
 
+    // add amount action
     public function addAmount(){
-        
+        dd($_SESSION);
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
             $amount = '';
             $_SESSION['failed'] = '';
@@ -118,6 +142,15 @@ class ClientController extends BaseController {
                 $this->redirect('/user/accounts?action=depot');
             }
         }
+    }
+
+    // transfer handeling
+    public function handleTransfert(){
+        $id = $_SESSION['user_id'];
+        $_SESSION['accounts'] = $this->accountModel->getAccounts($id);
+        // $this->transactionModel->
+        $this->redirect('user/transferts');
+        
     }
 
 
