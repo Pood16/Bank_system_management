@@ -13,7 +13,7 @@ class Account extends Database {
     }
 
 
-    // get account information
+    // get all user accounts informations
     public function getAccounts($id){
         $query = "SELECT * FROM accounts WHERE user_id = :id";
         $stmt = $this->conn->prepare($query);
@@ -21,21 +21,65 @@ class Account extends Database {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    // get account by id
+    public function getAccount($id){
+        $query = "SELECT * FROM accounts WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
     // deposite an amount
-    public function addAmount($id,$solde, $amount){
-        $sql = 'UPDATE accounts SET balance = :solde + :amount WHERE user_id = :id AND account_type = "courant"';
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':solde', $solde, PDO::PARAM_STR);
-        $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
-        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
-        if ($stmt->execute()){
-            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount, beneficiary_account_id) VALUES (:id, "depot", :amount, :id)';
+    public function addAmount($user_id, $account_id, $account_balance, $amount){
+        $this->conn->beginTransaction();
+        try{
+            $sql = 'UPDATE accounts SET balance = :account_balance + :amount, updated_at = NOW()  WHERE id = :account_id';
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_STR);
-            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR); 
+            $stmt->bindParam(':account_balance', $account_balance, PDO::PARAM_STR);
+            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
+            $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount, beneficiary_id) VALUES (:account_id, "depot", :amount, :user_id)';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
+            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
             $stmt->execute();   
+
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            return false;
         }
-        return true;
+    }
+    // withdraw an amount
+    public function withdrawAmount($user_id, $account_id, $account_balance, $amount){
+        $this->conn->beginTransaction();
+        try{
+            $sql = 'UPDATE accounts SET balance = :account_balance - :amount, updated_at = NOW()  WHERE id = :account_id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':account_balance', $account_balance, PDO::PARAM_STR);
+            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
+            $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount, beneficiary_id) VALUES (:account_id, "retrait", :amount, :user_id)';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
+            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+            $stmt->execute();   
+
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            return false;
+        }
     }
 
     public function getTotalDeposits() {

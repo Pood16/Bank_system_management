@@ -1,5 +1,8 @@
+<?php 
+// var_dump($_SESSION);
+?>
 <div x-show="isModal3Open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
-  <div x-show="isModal3Open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0 transform translate-y-1/2" @click.away="closeModal3" @keydown.escape="closeModal3" class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
+  <div x-show="isModal3Open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0 transform translate-y-1/2" @click.away="closeModalTwo" @keydown.escape="closeModalTwo" class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
     <header class="flex justify-end">
       <button class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover:text-gray-700" aria-label="close" @click="closeModal3">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
@@ -7,7 +10,7 @@
         </svg>
       </button>
     </header>
-    <h2 class="text-2xl font-bold mb-6 text-center text-white">Revele</h2>
+    <h2 class="text-2xl font-bold mb-6 text-center text-white">Deposit Money</h2>
     <span class="text-red-500"> <?php if(isset($_SESSION['account_statu']) && !empty($_SESSION['account_statu'])){
             echo $_SESSION['account_statu'];
         } ?> </span>
@@ -23,11 +26,29 @@
         <input type="number" id="amount" name="amount" value="
 					<?=isset($_SESSION['account_statu'])?'readonly':''?>" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Enter amount">
       </div>
+      <div class="mb-4">
+        <label for="account_id" class="block text-sm font-medium text-white mb-2">Account Name</label>
+        <select id="account_id" name="account_id" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+           <?php foreach($accounts as $account): ?> 
+              <?php if($account['account_type'] == 'courant'): ?>
+                <option value="<?= $account['id'] ?>"> <?= $account['account_number'] ?> - <?= $account['account_type'] ?> </option> 
+              <?php endif; ?>
+           <?php endforeach; ?> 
+            </select>
+      </div>
       <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
         <button onclick="window.location = '/user/accounts'" @click="closeModal3" type="button" class="w-full px-5 py-3 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"> Cancel </button>
         <button type="submit" name="submit" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Submit</button>
       </footer>
     </form>
   </div>
-</div> <?php unset($_SESSION['failed']);
-unset($_SESSION['success']); ?>
+</div> 
+
+
+<?php 
+
+unset($_SESSION['failed']);
+unset($_SESSION['success']);
+unset($_SESSION['amount_validation']);
+
+?>

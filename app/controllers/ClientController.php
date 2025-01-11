@@ -115,30 +115,69 @@ class ClientController extends BaseController {
 
     // add amount action
     public function addAmount(){
+      
+        $_SESSION['failed'] = '';
+        $_SESSION['success'] = '';
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
-            $amount = '';
-            $_SESSION['failed'] = '';
-            $_SESSION['success'] = '';
-            $account = $this->accountModel->getAccounts($_SESSION['user_id']);
-           
-            if (empty($_POST['amount']) || $_POST['amount'] < 0.01){
-                $_SESSION['failed'] = 'The minimum amount to deposit  should be greater than 0.01 Euro';
-                $_SESSION['accounts'] = $account;
+            $amount = floatval(htmlspecialchars(trim($_POST['amount'])));
+            $account_id = intval($_POST['account_id']);
+            $account = $this->accountModel->getAccount($account_id);
+            $user_id = $account['user_id'];
+            $account_balance = floatval($account['balance']);
+         
+
+            if ($amount< 0.01){
+                $_SESSION['failed'] = 'The minimum amount to deposit  should be greater than 0.01 dirhams';
+             
                 $this->redirect('/user/accounts?action=depot');
-            }else{
-                $amount = (float)$_POST['amount'];
             }
-            $id = $_SESSION['user_id'];
-            $old_balance = (float)$account[0]['balance'];
-            $status = $this->accountModel->addAmount($id, $old_balance, $amount);
-            if ($status){
+            
+            
+            $depot = $this->accountModel->addAmount($user_id, $account_id, $account_balance, $amount);
+
+            if ($depot){
                 $_SESSION['success'] = "The amount was added successfully";
-                $_SESSION['accounts'] = $account;
+          
                 $this->redirect('/user/accounts?action=depot');
             }else{
                 $_SESSION['failed'] = "Failed to add the amount";
-                $_SESSION['accounts'] = $account;
+             
                 $this->redirect('/user/accounts?action=depot');
+            }
+        }
+    }
+
+    // withdraw amount
+    public function withdrawAmount(){
+        
+        $_SESSION['failed'] = '';
+        $_SESSION['success'] = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
+            
+            $amount = floatval(htmlspecialchars(trim($_POST['amount'])));
+            $account_id = intval($_POST['account_id']);
+            $account = $this->accountModel->getAccount($account_id);
+            $user_id = $account['user_id'];
+            $account_balance = floatval($account['balance']);
+         
+
+            if ($amount > $account_balance){
+                $_SESSION['failed'] = 'The amount you want to withdraw is greater than your balance';
+           
+                $this->redirect('/user/accounts?action=retrait');
+            }
+            
+            
+            $retrait = $this->accountModel->withdrawAmount($user_id, $account_id, $account_balance, $amount);
+
+            if ($retrait){
+                $_SESSION['success'] = "The amount was withdraw successfully";
+                dd($_SESSION['success']);
+                $this->redirect('/user/accounts?action=retrait');
+            }else{
+                $_SESSION['failed'] = "Failed to withdraw the amount";
+             
+                $this->redirect('/user/accounts?action=retrait');
             }
         }
     }
@@ -152,11 +191,9 @@ class ClientController extends BaseController {
         
     }
 
-    // withdraw amount
-
-    public function withdrawAmount(){
+    
         
-    }
+    
 
 
 
