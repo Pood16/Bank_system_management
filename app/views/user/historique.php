@@ -28,26 +28,29 @@
                             <?php elseif ($transaction['transaction_type'] == 'retrait'): ?>
                                 <span class="bg-red-500 text-white rounded px-2"><?= htmlspecialchars($transaction['transaction_type']) ?></span>
                             <?php else: ?>
-                                <?= htmlspecialchars($transaction['transaction_type']) ?>
+                                <span class="bg-yellow-500 text-white rounded px-2"><?= htmlspecialchars($transaction['transaction_type']) ?></span>
+                               
                             <?php endif; ?>
                         </td>
-                        <td class="px-2 py-3"><?= htmlspecialchars($transaction['account_number']) ?></td>
+                        <td class="px-2 py-3">
+                            <?= htmlspecialchars($transaction['account_number']) ?>
+                        </td>
                         <td class="px-2 py-3">
                             <?php if ($transaction['transaction_type'] == 'depot'): ?>
                                 <span class="text-green-500">+<?= htmlspecialchars($transaction['amount']) ?></span>
                             <?php elseif ($transaction['transaction_type'] == 'retrait'): ?>
                                 <span class="text-red-500">-<?= htmlspecialchars($transaction['amount']) ?></span>
                             <?php else: ?>
-                                <?= htmlspecialchars($transaction['amount']) ?>
+                                <span class="text-yellow-500"><?= htmlspecialchars($transaction['amount']) ?></span>
                             <?php endif; ?>
                         </td>
                         <td class="px-2 py-3">
                             <?php if ($transaction['transaction_type'] == 'depot'): ?>
-                                <span>verment d'aprer <?= htmlspecialchars($transaction['user_name']) ?> de <?= htmlspecialchars($transaction['amount']) ?></span>
+                                <span>Deposit  d'un montant <?= htmlspecialchars($transaction['amount']) ?></span>
                             <?php elseif ($transaction['transaction_type'] == 'retrait'): ?>
-                                <span>retrait de l'apart de <?= htmlspecialchars($transaction['user_name']) ?> de <?= htmlspecialchars($transaction['amount']) ?></span>
-                            <?php elseif ($transaction['transaction_type'] == 'transfaire'): ?>
-                                <span>transfer de l'apart de <?= htmlspecialchars($transaction['user_name']) ?> ver <?= htmlspecialchars($transaction['account_number']) ?></span>
+                                <span>retrait d'un montant <?= htmlspecialchars($transaction['amount']) ?></span>
+                            <?php elseif ($transaction['transaction_type'] == 'transfert'): ?>
+                                <span>transfer vert le compte <?= htmlspecialchars($transaction['account_number']) ?> d'un montant <?= htmlspecialchars($transaction['amount']) ?></span>
                             <?php endif; ?>
                         </td>
                     </tr>

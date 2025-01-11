@@ -201,14 +201,15 @@ class ClientController extends BaseController {
             
             $user_id = $_SESSION['user_id'];
             $from_account_balance = floatval($from_account['balance']);
+            $to_account_balance = floatval($to_account['balance']);
             
             if ($amount > $from_account_balance) {
                 $_SESSION['failed'] = 'The amount you want to transfer is greater than your balance';
                 $this->redirect('/user/accounts?action=transfert');
             }
             
-            $transfert = $this->accountModel->transferAmount($user_id, $from_account_id, $from_account_balance, $amount, $to_account_id);
-            dd($transfert);
+            $transfert = $this->accountModel->transferAmount($user_id, $from_account_id, $from_account_balance, $amount, $to_account_id, $to_account_balance);
+        
             if ($transfert) {
                 $_SESSION['success'] = "The amount was transferred successfully";
                 $this->redirect('/user/accounts?action=transfert');

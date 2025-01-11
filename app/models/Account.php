@@ -40,11 +40,11 @@ class Account extends Database {
             $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
             $stmt->execute();
 
-            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount, beneficiary_id) VALUES (:account_id, "depot", :amount, :user_id)';
+            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount) VALUES (:account_id, "depot", :amount)';
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
             $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
-            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+            
             $stmt->execute();   
 
 
@@ -66,11 +66,11 @@ class Account extends Database {
             $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
             $stmt->execute();
 
-            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount, beneficiary_id) VALUES (:account_id, "retrait", :amount, :user_id)';
+            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount) VALUES (:account_id, "retrait", :amount)';
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
             $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
-            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+           
             $stmt->execute();   
 
 
@@ -82,28 +82,27 @@ class Account extends Database {
         }
     }
     // transfer an amount
-    public function transferAmount($user_id, $account_id, $account_balance, $amount, $beneficiary_id){
+    public function transferAmount($user_id, $from_account_id, $from_account_balance, $amount, $to_account_id, $to_account_balance){
         $this->conn->beginTransaction();
-        try{
-            $sql = 'UPDATE accounts SET balance = :account_balance - :amount, updated_at = NOW()  WHERE id = :account_id';
+        try{    
+            $sql = 'UPDATE accounts SET balance = :from_account_balance - :amount, updated_at = NOW()  WHERE id = :from_account_id';
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':account_balance', $account_balance, PDO::PARAM_STR);
+            $stmt->bindParam(':from_account_balance', $from_account_balance, PDO::PARAM_STR);
             $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
-            $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
+            $stmt->bindParam(':from_account_id', $from_account_id, PDO::PARAM_STR);
             $stmt->execute();
 
-            $sql = 'UPDATE accounts SET balance = :account_balance + :amount, updated_at = NOW()  WHERE id = :beneficiary_id';
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':account_balance', $account_balance, PDO::PARAM_STR);
+            $sql = 'UPDATE accounts SET balance = :to_account_balance + :amount, updated_at = NOW()  WHERE id = :to_account_id';
+            $stmt = $this->conn->prepare($sql); 
+            $stmt->bindParam(':to_account_balance', $to_account_balance, PDO::PARAM_STR);
             $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
-            $stmt->bindParam(':beneficiary_id', $beneficiary_id, PDO::PARAM_STR);
+            $stmt->bindParam(':to_account_id', $to_account_id, PDO::PARAM_STR);
             $stmt->execute();
 
-            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount, beneficiary_id) VALUES (:account_id, "transfer", :amount, :beneficiary_id)';
+            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount) VALUES (:account_id, "transfert", :amount)';
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
+            $stmt->bindParam(':account_id', $from_account_id, PDO::PARAM_STR);
             $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
-            $stmt->bindParam(':beneficiary_id', $beneficiary_id, PDO::PARAM_STR);
             $stmt->execute();   
 
 
