@@ -3,14 +3,16 @@
 
 require_once __DIR__.'/../models/User.php';
 require_once __DIR__.'/../models/Account.php';
-// require_once __DIR__.'/../models/Transaction.php';
+require_once __DIR__.'/../models/Transaction.php';
 class ClientController extends BaseController {
   
     private $userModel;
     private $accountModel;
+    private $transactionModel;
     public function __construct(){
         $this->userModel = new User();
         $this->accountModel = new Account();
+        $this->transactionModel = new Transaction();
     }
 
     //
@@ -54,7 +56,9 @@ class ClientController extends BaseController {
     }
     // client transactions historique view
     public function showHistoriques(){
-        $this->renderUser('historique');
+        $connected_user_id = $_SESSION['user_id'];
+        $transactions = $this->transactionModel->getTransactions($connected_user_id);
+        $this->renderUser('historique', ['transactions' => $transactions]);
     }
     //
     // end views
@@ -172,7 +176,7 @@ class ClientController extends BaseController {
 
             if ($retrait){
                 $_SESSION['success'] = "The amount was withdraw successfully";
-                dd($_SESSION['success']);
+                // dd($_SESSION['success']);
                 $this->redirect('/user/accounts?action=retrait');
             }else{
                 $_SESSION['failed'] = "Failed to withdraw the amount";
@@ -184,13 +188,43 @@ class ClientController extends BaseController {
 
     // transfer handeling
     public function handleTransfert(){
-        $id = $_SESSION['user_id'];
-        $_SESSION['accounts'] = $this->accountModel->getAccounts($id);
-        // $this->transactionModel->
-        $this->redirect('user/transferts');
+        $_SESSION['failed'] = '';
+        $_SESSION['success'] = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+      
+            $amount = floatval(htmlspecialchars(trim($_POST['amount'])));
+            $from_account_id = intval($_POST['from_account']);
+            $to_account_id = intval($_POST['to_account']);
+            
+            $from_account = $this->accountModel->getAccount($from_account_id);
+            $to_account = $this->accountModel->getAccount($to_account_id);
+            
+            $user_id = $_SESSION['user_id'];
+            $from_account_balance = floatval($from_account['balance']);
+            
+            if ($amount > $from_account_balance) {
+                $_SESSION['failed'] = 'The amount you want to transfer is greater than your balance';
+                $this->redirect('/user/accounts?action=transfert');
+            }
+            
+            $transfert = $this->accountModel->transferAmount($user_id, $from_account_id, $from_account_balance, $amount, $to_account_id);
+            dd($transfert);
+            if ($transfert) {
+                $_SESSION['success'] = "The amount was transferred successfully";
+                $this->redirect('/user/accounts?action=transfert');
+            } else {
+                $_SESSION['failed'] = "Failed to transfer the amount";
+                $this->redirect('/user/accounts?action=transfert');
+            }
+    }
+      
         
     }
 
+
+
+
+    
     
         
     

@@ -81,7 +81,44 @@ class Account extends Database {
             return false;
         }
     }
+    // transfer an amount
+    public function transferAmount($user_id, $account_id, $account_balance, $amount, $beneficiary_id){
+        $this->conn->beginTransaction();
+        try{
+            $sql = 'UPDATE accounts SET balance = :account_balance - :amount, updated_at = NOW()  WHERE id = :account_id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':account_balance', $account_balance, PDO::PARAM_STR);
+            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
+            $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
+            $stmt->execute();
 
+            $sql = 'UPDATE accounts SET balance = :account_balance + :amount, updated_at = NOW()  WHERE id = :beneficiary_id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':account_balance', $account_balance, PDO::PARAM_STR);
+            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
+            $stmt->bindParam(':beneficiary_id', $beneficiary_id, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $sql = 'INSERT INTO transactions (account_id, transaction_type, amount, beneficiary_id) VALUES (:account_id, "transfer", :amount, :beneficiary_id)';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':account_id', $account_id, PDO::PARAM_STR);
+            $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
+            $stmt->bindParam(':beneficiary_id', $beneficiary_id, PDO::PARAM_STR);
+            $stmt->execute();   
+
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            return false;
+        }
+    }
+
+
+
+
+    // admin stats
     public function getTotalDeposits() {
         $query = "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE transaction_type = 'depot'";
         $stmt = $this->conn->prepare($query);
