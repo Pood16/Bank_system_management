@@ -15,6 +15,10 @@
     <script src="/assets/js/charts-pie.js" defer></script> -->
     <script src="/assets/js/focus-trap.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- datatables -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
   </head>
   <body>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">

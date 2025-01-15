@@ -8,7 +8,7 @@
 
 <main class="px-1.5  text-gray-300">
     <div class="w-11/12 mt-10 mx-auto overflow-x-auto">
-        <table class="w-full whitespace-no-wrap">
+        <table id="table" class="w-full whitespace-no-wrap">
             <thead>
                 <tr class="text-xs font-semibold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-2 py-3">DATE</th>
@@ -59,6 +59,8 @@
         </table>
     </div>          
 </main>
+
 <?php require_once __DIR__ . '/../components/footer.php'; ?>
+
 
 
